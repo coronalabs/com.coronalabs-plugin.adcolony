@@ -1,1 +1,7 @@
 plugins/*.tgz
+*xcuser*
+.gradle/
+.idea/
+src/ios/BuiltPlugin
+src/ios/libAdColonyPlugin.a
+build/

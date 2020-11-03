@@ -1,0 +1,34 @@
+settings =
+{
+	orientation =
+	{
+		default = "portrait",
+		supported = { "portrait" }
+	},
+
+	iphone =
+	{
+		xcassets = "Images.xcassets",
+		plist =
+		{
+			UILaunchStoryboardName = "LaunchScreen",
+			CFBundleIdentifier = "com.appodeal.testing",
+			NSAppTransportSecurity = { NSAllowsArbitraryLoads=true },
+		}
+	},
+
+	android =
+	{
+		usesPermissions =
+		{
+			"android.permission.ACCESS_NETWORK_STATE"
+		}
+	},
+
+	plugins = {
+		["plugin.adcolony"] =
+		{
+			publisherId = "com.coronalabs",
+		},
+	}
+}

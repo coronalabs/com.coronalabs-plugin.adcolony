@@ -96,7 +96,35 @@ settings = {
 			NSCalendarsUsageDescription = "This app would like to add events to the calendar.",
 			NSPhotoLibraryUsageDescription = "This app would like to access the photo library.",
 			NSCameraUsageDescription = "This app would like to access the camera.",
-			NSMotionUsageDescription = "This app would like to use interactive ad controls."
+			NSMotionUsageDescription = "This app would like to use interactive ad controls.",
+			NSUserTrackingUsageDescription = "To serve more releavant ads",
+			SKAdNetworkItems = {
+				{ SKAdNetworkIdentifier = "4PFYVQ9L8R.skadnetwork" },
+				{ SKAdNetworkIdentifier = "YCLNXRL5PM.skadnetwork" },
+				{ SKAdNetworkIdentifier = "V72QYCH5UU.skadnetwork" },
+				{ SKAdNetworkIdentifier = "TL55SBB4FM.skadnetwork" },
+				{ SKAdNetworkIdentifier = "T38B2KH725.skadnetwork" },
+				{ SKAdNetworkIdentifier = "PRCB7NJMU6.skadnetwork" },
+				{ SKAdNetworkIdentifier = "PPXM28T8AP.skadnetwork" },
+				{ SKAdNetworkIdentifier = "MLMMFZH3R3.skadnetwork" },
+				{ SKAdNetworkIdentifier = "KLF5C3L5U5.skadnetwork" },
+				{ SKAdNetworkIdentifier = "HS6BDUKANM.skadnetwork" },
+				{ SKAdNetworkIdentifier = "C6K4G5QG8M.skadnetwork" },
+				{ SKAdNetworkIdentifier = "9T245VHMPL.skadnetwork" },
+				{ SKAdNetworkIdentifier = "9RD848Q2BZ.skadnetwork" },
+				{ SKAdNetworkIdentifier = "8S468MFL3Y.skadnetwork" },
+				{ SKAdNetworkIdentifier = "7UG5ZH24HU.skadnetwork" },
+				{ SKAdNetworkIdentifier = "4FZDC2EVR5.skadnetwork" },
+				{ SKAdNetworkIdentifier = "4468KM3ULZ.skadnetwork" },
+				{ SKAdNetworkIdentifier = "3RD42EKR43.skadnetwork" },
+				{ SKAdNetworkIdentifier = "2U9PT9HC89.skadnetwork" },
+				{ SKAdNetworkIdentifier = "M8DBW4SV7C.skadnetwork" },
+				{ SKAdNetworkIdentifier = "7RZ58N8NTL.skadnetwork" },
+				{ SKAdNetworkIdentifier = "EJVT5QM6AK.skadnetwork" },
+				{ SKAdNetworkIdentifier = "5LM9LJ6JB7.skadnetwork" },
+				{ SKAdNetworkIdentifier = "44JX6755AQ.skadnetwork" },
+				{ SKAdNetworkIdentifier = "MTKV5XTK9E.skadnetwork" },
+			}
 		}
 	}
 }

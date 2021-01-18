@@ -38,7 +38,7 @@ task exportPluginJar() {
 }
 
 task deployPluginToDirectory() {
-    group "Corona-dev"
+    group "Solar2D"
     dependsOn assemble
     doLast {
         copy {
@@ -72,7 +72,7 @@ repositories {
 
 
 dependencies {
-    implementation 'com.adcolony:sdk:4.3.0'
+    implementation 'com.adcolony:sdk:4.4.0'
 	implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
     implementation ':Corona@aar'

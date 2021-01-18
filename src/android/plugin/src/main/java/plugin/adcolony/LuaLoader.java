@@ -363,7 +363,7 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
 
             String appId = null;
             String userId = null;
-            String adOrientation = LANDSCAPE;
+            String adOrientation = null;
             boolean debugLogging = false;
             Hashtable<String, String> zoneTable = null;
             Boolean hasUserConsent = null;
@@ -497,7 +497,7 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
                 return 0;
             }
 
-            if (!adOrientation.equals(LANDSCAPE) && !adOrientation.equals(PORTRAIT)) {
+            if (adOrientation!=null && !adOrientation.equals(LANDSCAPE) && !adOrientation.equals(PORTRAIT)) {
                 logMsg(ERROR_MSG, "options.adOrientation. Invalid orientation '" + adOrientation + "'");
                 return 0;
             }
@@ -532,7 +532,9 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
                                 AdColonyAppOptions appOptions = new AdColonyAppOptions();
                                 String targetStore = android.os.Build.MANUFACTURER.equals("Amazon") ? "amazon" : "google";
                                 appOptions.setOriginStore(targetStore);
-                                appOptions.setRequestedAdOrientation(fAdOrientation.equals(LANDSCAPE) ? AdColonyAppOptions.LANDSCAPE : AdColonyAppOptions.PORTRAIT);
+                                if(fAdOrientation!=null) {
+                                    appOptions.setRequestedAdOrientation(fAdOrientation.equals(LANDSCAPE) ? AdColonyAppOptions.LANDSCAPE : AdColonyAppOptions.PORTRAIT);
+                                }
 
                                 // set custom user id
                                 if (fUserId != null) {

@@ -5,5 +5,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.adcolony:sdk:4.3.0'
+    implementation 'com.adcolony:sdk:4.4.0'
 }

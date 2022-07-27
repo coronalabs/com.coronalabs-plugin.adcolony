@@ -17,7 +17,13 @@ typedef NS_ENUM(NSUInteger, AdColonyRequestError) {
     AdColonyRequestErrorNoFillForRequest,
 
     /** Either AdColony has not been configured, is still in the process of configuring, is still downloading assets, or is already showing an ad. */
-    AdColonyRequestErrorUnready
+    AdColonyRequestErrorUnready,
+    
+    /** This iOS version is no longer supported. */
+    AdColonyRequestErrorFeatureUnsupported,
+
+    /** Unexpected result */
+    AdColonyRequestErrorUnexpected
 };
 
 /**
@@ -59,9 +65,6 @@ typedef NS_ENUM(NSInteger, AdColonyZoneType) {
     AdColonyZoneTypeInterstitial = 0,
     
     /** Banner zone type */
-    AdColonyZoneTypeBanner = 1,
-
-    /** Native zone type */
-    AdColonyZoneTypeNative __attribute__((deprecated("It will be removed in a future release"))) = 2
+    AdColonyZoneTypeBanner = 1
 };
 

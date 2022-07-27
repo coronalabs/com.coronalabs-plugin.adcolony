@@ -34,7 +34,7 @@
 // ----------------------------------------------------------------------------
 
 #define PLUGIN_NAME        "plugin.adcolony"
-#define PLUGIN_VERSION     "2.1.0"
+#define PLUGIN_VERSION     "2.2.0"
 #define PLUGIN_SDK_VERSION [AdColony getSDKVersion]
 
 static const char EVENT_NAME[]    = "adsRequest";
@@ -105,6 +105,16 @@ static NSString *functionSignature;                                   // used in
 - (void)onAdColonyAdClickedInZone:(NSString *)zoneID;
 - (void)onAdColonyAdExpiredInZone:(NSString *)zoneID;
 - (void)onAdColonyReward:(BOOL)success currencyName:(NSString *)currencyName currencyAmount:(int)amount inZone:(NSString *)zoneID;
+
+@end
+
+// ----------------------------------------------------------------------------
+// Interstitial Delegate
+// ----------------------------------------------------------------------------
+
+@interface AdColonyInterstitialDel: NSObject <AdColonyInterstitialDelegate>
+
+@property (nonatomic, assign) NSString * zoneId;
 
 @end
 
@@ -723,41 +733,10 @@ AdColonyPlugin::load(lua_State *L)
     AdColonyAdOptions *adOptions = [AdColonyAdOptions new];
     adOptions.showPrePopup = prePopup;
     adOptions.showPostPopup = postPopup;
+    AdColonyInterstitialDel * interstitialDel = [AdColonyInterstitialDel alloc];
+    interstitialDel.zoneId = zoneId;
     
-    [AdColony requestInterstitialInZone:zoneId
-        options:adOptions
-        success:^(AdColonyInterstitial *ad) {
-            // get zone status (contains info about ad type, loaded status etc)
-            NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][zoneId];
-
-            ad.open = ^{
-                // flag the ad as used
-                zoneStatus[ZONE_LOADED_KEY] = @(false);
-                [adcolonyCoronaDelegate onAdColonyAdStartedInZone:zoneId];
-            };
-            ad.close = ^{
-                [adcolonyCoronaDelegate onAdColonyAdFinishedInZone:zoneId];
-            };
-            ad.click = ^{
-                [adcolonyCoronaDelegate onAdColonyAdClickedInZone:zoneId];
-            };
-            ad.expire = ^{
-                zoneStatus[ZONE_ADOBJECT_KEY] = nil; // remove ad object instance
-                zoneStatus[ZONE_LOADED_KEY] = @(false);
-                [adcolonyCoronaDelegate onAdColonyAdExpiredInZone:zoneId];
-            };
-            
-            zoneStatus[ZONE_ADOBJECT_KEY] = ad; // save ad object instance
-            zoneStatus[ZONE_LOADED_KEY] = @(true);
-            [adcolonyCoronaDelegate onAdColonyAdLoadedInZone:zoneId];
-        }
-        failure:^(AdColonyAdRequestError *error) {
-            NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][zoneId];
-            zoneStatus[ZONE_ADOBJECT_KEY] = nil; // remove ad object instance
-            zoneStatus[ZONE_LOADED_KEY] = @(false);
-            [adcolonyCoronaDelegate onAdColonyAdFailedInZone:zoneId error:error];
-        }
-    ];
+    [AdColony requestInterstitialInZone:zoneId options:adOptions andDelegate:interstitialDel];
     
     return 0;
 }
@@ -996,6 +975,54 @@ AdColonyPlugin::getInfoForZone(lua_State *L)
     [self dispatchLuaEvent:coronaEvent];
 }
 
+
+@end
+
+@implementation AdColonyInterstitialDel
+#pragma mark - AdColony Interstitial Delegate
+
+// Store a reference to the returned interstitial object
+- (void)adColonyInterstitialDidLoad:(AdColonyInterstitial *)interstitial {
+    NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][self.zoneId];
+    zoneStatus[ZONE_ADOBJECT_KEY] = interstitial; // save ad object instance
+    zoneStatus[ZONE_LOADED_KEY] = @(true);
+    [adcolonyCoronaDelegate onAdColonyAdLoadedInZone:self.zoneId];
+}
+
+// Handle loading error
+- (void)adColonyInterstitialDidFailToLoad:(AdColonyAdRequestError *)error {
+    NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][self.zoneId];
+    zoneStatus[ZONE_ADOBJECT_KEY] = nil; // remove ad object instance
+    zoneStatus[ZONE_LOADED_KEY] = @(false);
+    
+    [adcolonyCoronaDelegate onAdColonyAdFailedInZone:self.zoneId error:error];
+}
+
+// Handle expiring ads (optional)
+- (void)adColonyInterstitialExpired:(AdColonyInterstitial *)interstitial  {
+    NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][self.zoneId];
+    zoneStatus[ZONE_ADOBJECT_KEY] = nil; // remove ad object instance
+    zoneStatus[ZONE_LOADED_KEY] = @(false);
+    [adcolonyCoronaDelegate onAdColonyAdExpiredInZone:self.zoneId];
+    
+}
+- (void)adColonyInterstitialWillOpen:(AdColonyInterstitial *)interstitial {
+    NSMutableDictionary *zoneStatus = adcolonyObjects[ZONESTATUS_KEY][self.zoneId];
+    zoneStatus[ZONE_LOADED_KEY] = @(false);
+    [adcolonyCoronaDelegate onAdColonyAdStartedInZone:self.zoneId];
+}
+
+- (void)adColonyInterstitialDidClose:(AdColonyInterstitial *)interstitial {
+    [adcolonyCoronaDelegate onAdColonyAdFinishedInZone:self.zoneId];
+}
+
+- (void)adColonyInterstitialWillLeaveApplication:(AdColonyInterstitial *)interstitial {
+    //Not Handled
+}
+
+- (void)adColonyInterstitialDidReceiveClick:(AdColonyInterstitial *)interstitial {
+    [adcolonyCoronaDelegate onAdColonyAdClickedInZone:self.zoneId];
+}
 @end
 
 // ----------------------------------------------------------------------------

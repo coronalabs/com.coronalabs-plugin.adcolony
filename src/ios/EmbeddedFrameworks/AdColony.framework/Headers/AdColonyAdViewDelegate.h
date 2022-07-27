@@ -30,6 +30,13 @@
 
 @optional
 /**
+ @abstract Did show notification
+ @discussion Ad view was added to a view with active window
+ @param adView Shown ad view
+ */
+- (void)adColonyAdViewDidShow:(AdColonyAdView * _Nonnull)adView;
+
+/**
  @abstract Application leave notification
  @discussion Notifies you when ad view is going to redirect user to content outside of the application.
  @param adView The ad view which caused the user to leave the application.
@@ -59,9 +66,19 @@
 
 @end
 
+/**
+ * The delegate of an AdColonyAdView object. This delegate receives ad view lifecycle notifications.
+ */
+@protocol AdColonyAdViewAdvancedDelegate <AdColonyAdViewDelegate>
 
-#ifndef AdColonyAdViewDelegate_h
-#define AdColonyAdViewDelegate_h
+@required
 
+/**
+ @abstract Host view controller request
+ @discussion Requests hosting view controller when needed if it wasn't provided during ad request.
+ @param adView The ad view which requests host view controller.
+ @return view controller that hosts given ad view
+ */
+- (UIViewController * _Nonnull)adColonyAdViewHostViewController:(AdColonyAdView * _Nonnull)adView;
 
-#endif /* AdColonyAdViewDelegate_h */
+@end

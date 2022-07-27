@@ -1,9 +1,9 @@
 repositories {
     maven {
-      url  "https://adcolony.bintray.com/AdColony"      
+      url  "https://adcolony.bintray.com/AdColony"
     }
 }
 
 dependencies {
-    implementation 'com.adcolony:sdk:4.4.0'
+    implementation 'com.adcolony:sdk:4.8.0'
 }

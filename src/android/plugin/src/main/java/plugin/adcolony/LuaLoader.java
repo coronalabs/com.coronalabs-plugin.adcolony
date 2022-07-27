@@ -42,7 +42,7 @@ import com.adcolony.sdk.*;
 @SuppressWarnings({"unused", "RedundantSuppression"})
 public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
     private static final String PLUGIN_NAME = "plugin.adcolony";
-    private static final String PLUGIN_VERSION = "2.1.3";
+    private static final String PLUGIN_VERSION = "2.2.0";
     private static final String PLUGIN_SDK_VERSION = AdColony.getSDKVersion();
 
     private static final String EVENT_NAME = "adsRequest";
